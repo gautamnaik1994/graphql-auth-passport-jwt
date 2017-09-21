@@ -21,15 +21,25 @@ const RootQueryType = new GraphQLObjectType({
       type: UserType,
       resolve(parentValue, args, req) {
         console.log('Testing jwt');
-        return AuthService.accessProtectedData();
+        return AuthService.accessProtectedData(req);
       },
     },
     protecteddata: {
       type: ProtectedDataType,
       resolve(parentValue, args, req) {
         console.log('Testing jwt');
+
         const ss = { secretInfo: 'secret ssshhhhh' };
-        return ss;
+        AuthService.accessProtectedData(req).then((user, err) => {
+          console.log('User', user, err);
+        });
+
+
+        // console.log('User', user);
+        // if (user) {
+        //   return ss;
+        // }
+        // return null;
       },
     },
   },

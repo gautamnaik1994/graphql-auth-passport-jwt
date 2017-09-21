@@ -84,14 +84,14 @@ function login({ email, password, req }) {
   });
 }
 
-function accessProtectedData() {
+function accessProtectedData(req) {
   return new Promise((resolve, reject) => {
     passport.authenticate('jwt', { session: false }, (err, user) => {
       if (err) { reject('Error ', err); }
       if (!user) { reject('Invalid credentials inside login function.'); }
       console.log(' Login function', user);
       resolve(user);
-    });
+    })(req);
   });
 }
 
